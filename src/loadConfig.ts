@@ -84,10 +84,22 @@ export const loadConfig = async (args: {
 }): Promise<{ config: Config; warnings: string[] }> => {
   const warnings: string[] = [];
   const configPath = await findConfigFile();
-  if (!configPath) throw new Error('Config file not found.');
-  const conf = parse(await readTextFile(configPath));
+  let conf: Record<string, string | undefined>;
+
+  if (configPath) {
+    conf = parse(await readTextFile(configPath));
+  } else {
+    conf = { ...process.env };
+    if (!conf.OPENAI_API_KEY) {
+      throw new Error('Config file not found and OPENAI_API_KEY is not set.');
+    }
+    warnings.push(
+      'Config file not found. Falling back to environment variables.'
+    );
+  }
+
   if (!conf.OPENAI_API_KEY) {
-    throw new Error('OPENAI_API_KEY is not set in config file.');
+    throw new Error('OPENAI_API_KEY is not set in config or environment.');
   }
 
   const promptPath = await findPromptFile();

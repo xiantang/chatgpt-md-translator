@@ -27,6 +27,8 @@ This tool itself is free, but you will be charged according to [OpenAI's pricing
 
    At least, you need to specify your API key as `OPENAI_API_KEY`.
 
+   > Tip: If you don't want to create a config file, you can set `OPENAI_API_KEY` as an environment variable and the CLI will fall back to it. All other settings will use defaults unless you pass CLI options.
+
 5. Create a **prompt** file. You can copy this [`prompt-example.md`](https://raw.githubusercontent.com/smikitky/markdown-gpt-translator/main/prompt-example.md) to one of the following locations and edit its contents. At least, you need to specify the language name. The contents of this file will be included in each API call, so you can write instructions to ChatGPT in a natural language.
 
    - `$CWD/prompt.md`
